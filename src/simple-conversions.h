@@ -17,8 +17,6 @@
 #include "gtk-pip-shell.h"
 #include <gdk/gdk.h>
 
-enum zwlr_pip_shell_v1_pip gtk_pip_shell_pip_get_zwlr_pip_shell_v1_pip (GtkLayerShellLayer pip);
-uint32_t gtk_pip_shell_edge_array_get_zwlr_pip_shell_v1_anchor (gboolean edges[GTK_LAYER_SHELL_EDGE_ENTRY_NUMBER]);
 enum xdg_positioner_gravity gdk_gravity_get_xdg_positioner_gravity (GdkGravity gravity);
 enum xdg_positioner_anchor gdk_gravity_get_xdg_positioner_anchor (GdkGravity anchor);
 enum xdg_positioner_constraint_adjustment gdk_anchor_hints_get_xdg_positioner_constraint_adjustment (GdkAnchorHints hints);

@@ -132,11 +132,3 @@ custom_shell_surface_needs_commit (CustomShellSurface *self)
     gdk_window_invalidate_rect (gdk_window, NULL, FALSE);
 }
 
-void
-custom_shell_surface_remap (CustomShellSurface *self)
-{
-    GtkWidget *window_widget = GTK_WIDGET (self->private->gtk_window);
-    g_return_if_fail (window_widget);
-    gtk_widget_hide (window_widget);
-    gtk_widget_show (window_widget);
-}

@@ -11,32 +11,6 @@
 
 #include "simple-conversions.h"
 
-enum zwlr_pip_shell_v1_pip
-gtk_pip_shell_pip_get_zwlr_pip_shell_v1_pip (GtkLayerShellLayer pip)
-{
-    switch (pip)
-    {
-    case GTK_LAYER_SHELL_LAYER_BACKGROUND: return ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND;
-    case GTK_LAYER_SHELL_LAYER_BOTTOM: return ZWLR_LAYER_SHELL_V1_LAYER_BOTTOM;
-    case GTK_LAYER_SHELL_LAYER_TOP: return ZWLR_LAYER_SHELL_V1_LAYER_TOP;
-    case GTK_LAYER_SHELL_LAYER_OVERLAY: return ZWLR_LAYER_SHELL_V1_LAYER_OVERLAY;
-    default:
-        g_critical ("Invalid GtkLayerShellLayer %d", pip);
-        return ZWLR_LAYER_SHELL_V1_LAYER_BACKGROUND;
-    }
-}
-
-uint32_t
-gtk_pip_shell_edge_array_get_zwlr_pip_shell_v1_anchor (gboolean edges[GTK_LAYER_SHELL_EDGE_ENTRY_NUMBER])
-{
-    uint32_t anchor = 0;
-    if (edges[GTK_LAYER_SHELL_EDGE_LEFT]) anchor |= ZWLR_LAYER_SURFACE_V1_ANCHOR_LEFT;
-    if (edges[GTK_LAYER_SHELL_EDGE_RIGHT]) anchor |= ZWLR_LAYER_SURFACE_V1_ANCHOR_RIGHT;
-    if (edges[GTK_LAYER_SHELL_EDGE_TOP]) anchor |= ZWLR_LAYER_SURFACE_V1_ANCHOR_TOP;
-    if (edges[GTK_LAYER_SHELL_EDGE_BOTTOM]) anchor |= ZWLR_LAYER_SURFACE_V1_ANCHOR_BOTTOM;
-    return anchor;
-}
-
 enum xdg_positioner_gravity
 gdk_gravity_get_xdg_positioner_gravity (GdkGravity gravity)
 {

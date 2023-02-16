@@ -27,7 +27,7 @@ static const char *popup_position_key = "custom-popup-position";
 
 static struct wl_registry *wl_registry_global = NULL;
 static struct xdg_wm_base *xdg_wm_base_global = NULL;
-static struct zwlr_pip_shell_v1 *pip_shell_global = NULL;
+static struct xdg_wm_pip_v1 *pip_shell_global = NULL;
 
 static gboolean has_initialized = FALSE;
 
@@ -37,7 +37,7 @@ gtk_wayland_get_has_initialized (void)
     return has_initialized;
 }
 
-struct zwlr_pip_shell_v1 *
+struct xdg_wm_pip_v1 *
 gtk_wayland_get_pip_shell_global ()
 {
     return pip_shell_global;
@@ -59,12 +59,12 @@ wl_registry_handle_global (void *_data,
     (void)_data;
 
     // pull out needed globals
-    if (strcmp (interface, zwlr_pip_shell_v1_interface.name) == 0) {
-        g_warn_if_fail (zwlr_pip_shell_v1_interface.version >= 3);
+    if (strcmp (interface, xdg_wm_pip_v1_interface.name) == 0) {
+        g_warn_if_fail (xdg_wm_pip_v1_interface.version >= 3);
         pip_shell_global = wl_registry_bind (registry,
                                                id,
-                                               &zwlr_pip_shell_v1_interface,
-                                               MIN((uint32_t)zwlr_pip_shell_v1_interface.version, version));
+                                               &xdg_wm_pip_v1_interface,
+                                               MIN((uint32_t)xdg_wm_pip_v1_interface.version, version));
     } else if (strcmp (interface, xdg_wm_base_interface.name) == 0) {
         g_warn_if_fail (xdg_wm_base_interface.version >= 2);
         xdg_wm_base_global = wl_registry_bind (registry,

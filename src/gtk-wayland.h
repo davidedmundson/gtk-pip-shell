@@ -19,7 +19,7 @@
 
 gboolean gtk_wayland_get_has_initialized (void);
 struct xdg_wm_base *gtk_wayland_get_xdg_wm_base_global (void);
-struct zwlr_pip_shell_v1 *gtk_wayland_get_pip_shell_global (void);
+struct xdg_wm_pip_v1 *gtk_wayland_get_pip_shell_global (void);
 
 void gtk_wayland_init_if_needed (void);
 
