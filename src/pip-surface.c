@@ -138,7 +138,7 @@ pip_surface_map(CustomShellSurface *super, struct wl_surface *wl_surface)
 
     const char *app_id = pip_surface_get_app_id(self);
 
-    xdg_pip_v1_set_app_id(self->xdg_surface, app_id);
+    xdg_pip_v1_set_app_id(self->pip_surface, app_id);
 
     xdg_surface_add_listener(self->xdg_surface, &xdg_surface_listener, self);
     xdg_pip_v1_add_listener(self->pip_surface, &pip_surface_listener, self);
