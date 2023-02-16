@@ -56,7 +56,7 @@ pip_surface_update_size(PipSurface *self)
     // been set), an allocate will not be triggered but the set size does need to change. For this reason we make the
     // call here as well and let the later call clean up any mistakes this one makes. This makes the flicker problem
     // worse, but I think it's more important that the end result is correct.
-    pip_surface_send_set_size(self);
+    // pip_surface_send_set_size(self);
 }
 
 static void
@@ -67,8 +67,6 @@ pip_surface_handle_configure(void *data,
                              uint32_t h)
 {
     PipSurface *self = data;
-
-    zwlr_pip_surface_v1_ack_configure(surface, serial);
 
     self->last_configure_size = (GtkRequisition){
         .width = (gint)w,
@@ -172,8 +170,6 @@ pip_surface_on_size_allocate(GtkWidget *_gtk_window,
             .width = allocation->width,
             .height = allocation->height,
         };
-
-        pip_surface_send_set_size(self);
     }
 }
 
@@ -221,4 +217,14 @@ pip_surface_get_app_id(PipSurface *self)
         return self->app_id;
     else
         return "gtk-pip-shell";
+}
+
+
+PipSurface *
+custom_shell_surface_get_pip_surface(CustomShellSurface *shell_surface)
+{
+    if (shell_surface && shell_surface->virtual == &pip_surface_virtual)
+        return (PipSurface *)shell_surface;
+    else
+        return NULL;
 }
