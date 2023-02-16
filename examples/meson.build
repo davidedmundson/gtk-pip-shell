@@ -11,6 +11,6 @@
 executable(
     'simple-example-c',
     files('simple-example.c'),
-    build_by_default: get_option('examples'),
+#     build_by_default: get_option('examples'),
     dependencies: [gtk, gtk_pip_shell],
     install: false)

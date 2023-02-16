@@ -60,7 +60,7 @@ wl_registry_handle_global (void *_data,
 
     // pull out needed globals
     if (strcmp (interface, xdg_wm_pip_v1_interface.name) == 0) {
-        g_warn_if_fail (xdg_wm_pip_v1_interface.version >= 3);
+        g_warn_if_fail (xdg_wm_pip_v1_interface.version >= 1);
         pip_shell_global = wl_registry_bind (registry,
                                                id,
                                                &xdg_wm_pip_v1_interface,
@@ -164,7 +164,7 @@ gtk_wayland_init_if_needed ()
     wl_display_roundtrip (wl_display);
 
     if (!pip_shell_global)
-        g_warning ("It appears your Wayland compositor does not support the Layer Shell protocol");
+        g_warning ("It appears your Wayland compositor does not support the PIP protocol");
 
     if (!xdg_wm_base_global)
         g_warning ("It appears your Wayland compositor does not support the XDG Shell stable protocol");

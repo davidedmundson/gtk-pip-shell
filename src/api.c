@@ -66,7 +66,7 @@ gtk_window_get_pip_surface(GtkWindow *window)
     PipSurface *pip_surface = custom_shell_surface_get_pip_surface(shell_surface);
     if (!pip_surface)
     {
-        g_critical("Custom wayland shell surface is not a pip surface, your Wayland compositor may not support Layer Shell");
+        g_critical("Custom wayland shell surface is not a pip surface, your Wayland compositor may not support PIP Shell");
         return NULL;
     }
     return pip_surface;

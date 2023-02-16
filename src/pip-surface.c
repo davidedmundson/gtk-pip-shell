@@ -154,6 +154,11 @@ pip_surface_unmap(CustomShellSurface *super)
         xdg_pip_v1_destroy(self->pip_surface);
         self->pip_surface = NULL;
     }
+    if (self->xdg_surface)
+    {
+        xdg_surface_destroy(self->xdg_surface);
+        self->xdg_surface = NULL;
+    }
 }
 
 static void
