@@ -36,9 +36,9 @@ pip_surface_update_size(PipSurface *self)
     gint width = -1;
     gint height = -1;
 
-        width = self->last_configure_size.width;
+    width = self->last_configure_size.width;
 
-        height = self->last_configure_size.height;
+    height = self->last_configure_size.height;
 
     GdkGeometry hints;
     hints.min_width = width;
@@ -107,17 +107,22 @@ pip_surface_map(CustomShellSurface *super, struct wl_surface *wl_surface)
 
     g_return_if_fail(!self->pip_surface);
 
-    struct zwlr_pip_shell_v1 *pip_shell_global = gtk_wayland_get_pip_shell_global();
+    struct xdg_wm_pip_v1 *pip_shell_global = gtk_wayland_get_pip_shell_global();
     g_return_if_fail(pip_shell_global);
+
+    struct xdg_wm_base *xdg_shell_global = gtk_wayland_get_xdg_wm_base_global();
+    g_return_if_fail(xdg_shell_global);
+
+    self->xdg_surface = xdg_wm_base_get_xdg_surface(xdg_shell_global, wl_surface);
+    self->pip_surface = xdg_wm_pip_v1_get_xdg_pip(pip_shell_global,
+                                                  self->xdg_surface);
+
+    g_return_if_fail(self->pip_surface);
+
+    // set some properties here
 
     const char *app_id = pip_surface_get_app_id(self);
 
-    self->pip_surface = xdg_wm_pip_v1_get_xdg_pip(pip_shell_global,
-                                                          wl_surface);
-                                                          
-                                                              g_return_if_fail(self->pip_surface);
-
-    // set some properties here
     xdg_pip_v1_add_listener(self->pip_surface, &pip_surface_listener, self);
 }
 
@@ -218,7 +223,6 @@ pip_surface_get_app_id(PipSurface *self)
     else
         return "gtk-pip-shell";
 }
-
 
 PipSurface *
 custom_shell_surface_get_pip_surface(CustomShellSurface *shell_surface)

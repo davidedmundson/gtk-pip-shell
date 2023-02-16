@@ -100,7 +100,7 @@ gtk_pip_is_pip_window (GtkWindow *window)
     return pip_surface != NULL;
 }
 
-struct zwlr_pip_surface_v1 *
+struct xdg_pip_v1 *
 gtk_pip_get_zwlr_pip_surface_v1 (GtkWindow *window)
 {
     PipSurface *pip_surface = gtk_window_get_pip_surface (window);
