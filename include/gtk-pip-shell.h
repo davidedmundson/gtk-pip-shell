@@ -113,9 +113,9 @@ gboolean gtk_pip_is_pip_window (GtkWindow *window);
  *
  * Returns: The underlying pip surface Wayland object
  *
- * Since: 0.4
  */
-struct zwlr_pip_surface_v1 *gtk_pip_get_zwlr_pip_surface_v1 (GtkWindow *window);
+// DAVE RENAME THIS
+struct xdg_pip_v1 *gtk_pip_get_zwlr_pip_surface_v1 (GtkWindow *window);
 
 /**
  * gtk_pip_set_app_id:

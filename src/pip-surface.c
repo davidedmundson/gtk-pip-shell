@@ -61,16 +61,16 @@ pip_surface_update_size(PipSurface *self)
 
 static void
 pip_surface_handle_configure(void *data,
-                             struct zwlr_pip_surface_v1 *surface,
-                             uint32_t serial,
-                             uint32_t w,
-                             uint32_t h)
+                             struct xdg_pip_v1 *_surface,
+                             int32_t w,
+                             int32_t h,
+                             struct wl_array *_states)
 {
     PipSurface *self = data;
 
     self->last_configure_size = (GtkRequisition){
-        .width = (gint)w,
-        .height = (gint)h,
+        .width = w,
+        .height = h,
     };
 
     pip_surface_update_size(self);
@@ -78,6 +78,7 @@ pip_surface_handle_configure(void *data,
 
 static void
 pip_surface_handle_configure_bounds(void *data,
+                                    struct xdg_pip_v1 *surface,
                                     int32_t w,
                                     int32_t h)
 {
@@ -85,7 +86,7 @@ pip_surface_handle_configure_bounds(void *data,
 
 static void
 pip_surface_handle_dismissed(void *data,
-                             struct zwlr_pip_surface_v1 *_surface)
+                             struct xdg_pip_v1 *_surface)
 {
     PipSurface *self = data;
     (void)_surface;
@@ -98,6 +99,21 @@ static const struct xdg_pip_v1_listener pip_surface_listener = {
     .configure_bounds = pip_surface_handle_configure_bounds,
     .configure = pip_surface_handle_configure,
     .dismissed = pip_surface_handle_dismissed,
+};
+
+static void
+xdg_surface_handle_configure(void *data,
+                             struct xdg_surface *_xdg_surface,
+                             uint32_t serial)
+{
+    XdgPopupSurface *self = data;
+    (void)_xdg_surface;
+
+    xdg_surface_ack_configure(self->xdg_surface, serial);
+}
+
+static const struct xdg_surface_listener xdg_surface_listener = {
+    .configure = xdg_surface_handle_configure,
 };
 
 static void
@@ -123,6 +139,7 @@ pip_surface_map(CustomShellSurface *super, struct wl_surface *wl_surface)
 
     const char *app_id = pip_surface_get_app_id(self);
 
+    xdg_surface_add_listener(self->xdg_surface, &xdg_surface_listener, self);
     xdg_pip_v1_add_listener(self->pip_surface, &pip_surface_listener, self);
 }
 
