@@ -33,7 +33,6 @@ struct _LayerSurface
     struct xdg_surface *xdg_surface; // the Wayland object for the underlying xdg_surface(can be NULL)
 
     GtkRequisition current_allocation; // Last size allocation, or (0, 0) if there hasn't been one
-    GtkRequisition cached_pip_size; // Last size sent to zwlr_pip_surface_v1_set_size (starts as 0, 0)
     GtkRequisition last_configure_size; // Last size received from a configure event
 };
 
@@ -49,5 +48,7 @@ void pip_surface_set_app_id (PipSurface *self, char const* name_space); // Makes
 const char* pip_surface_get_app_id (PipSurface *self);
 
 void pip_surface_move(PipSurface *self);
+
+void pip_surface_resize(PipSurface *self, GdkWindowEdge edge);
 
 #endif // LAYER_SHELL_SURFACE_H

@@ -214,7 +214,6 @@ pip_surface_new(GtkWindow *gtk_window)
         .width = 0,
         .height = 0,
     };
-    self->cached_pip_size = self->current_allocation;
     self->last_configure_size = self->current_allocation;
     self->app_id = NULL;
     self->pip_surface = NULL;
@@ -254,7 +253,8 @@ void pip_surface_move(PipSurface *self)
         return;
     }
     GdkSeat *gdk_seat = gdk_display_get_default_seat(gdk_display_get_default());
-    if (!gdk_seat) {
+    if (!gdk_seat)
+    {
         return;
     }
     uint32_t serial = gdk_window_get_priv_latest_serial(gdk_seat);
@@ -262,6 +262,24 @@ void pip_surface_move(PipSurface *self)
     struct wl_seat *wl_seat = gdk_wayland_seat_get_wl_seat(gdk_seat);
 
     xdg_pip_v1_move(self->pip_surface, wl_seat, serial);
+}
+
+void pip_surface_resize(PipSurface *self, GdkWindowEdge edge)
+{
+    if (!self->pip_surface)
+    {
+        return;
+    }
+    GdkSeat *gdk_seat = gdk_display_get_default_seat(gdk_display_get_default());
+    if (!gdk_seat)
+    {
+        return;
+    }
+    uint32_t serial = gdk_window_get_priv_latest_serial(gdk_seat);
+    struct wl_seat *wl_seat = gdk_wayland_seat_get_wl_seat(gdk_seat);
+
+    uint32_t resize_edge = gdk_get_resize_edge(edge);
+    xdg_pip_v1_resize(self->pip_surface, wl_seat, serial, resize_edge);
 }
 
 PipSurface *

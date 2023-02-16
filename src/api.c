@@ -129,3 +129,11 @@ void gtk_pip_move(GtkWindow *window)
         return; // Error message already shown in gtk_window_get_pip_surface
     return pip_surface_move(pip_surface);
 }
+
+void gtk_pip_resize(GtkWindow *window, GdkWindowEdge edge)
+{
+    PipSurface *pip_surface = gtk_window_get_pip_surface(window);
+    if (!pip_surface)
+        return; // Error message already shown in gtk_window_get_pip_surface
+    return pip_surface_resize(pip_surface, edge);
+}

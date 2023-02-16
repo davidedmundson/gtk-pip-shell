@@ -44,7 +44,7 @@ G_BEGIN_DECLS
  *
  * Since: 0.4
  */
-guint gtk_pip_get_major_version ();
+guint gtk_pip_get_major_version();
 
 /**
  * gtk_pip_get_minor_version:
@@ -53,7 +53,7 @@ guint gtk_pip_get_major_version ();
  *
  * Since: 0.4
  */
-guint gtk_pip_get_minor_version ();
+guint gtk_pip_get_minor_version();
 
 /**
  * gtk_pip_get_micro_version:
@@ -62,7 +62,7 @@ guint gtk_pip_get_minor_version ();
  *
  * Since: 0.4
  */
-guint gtk_pip_get_micro_version ();
+guint gtk_pip_get_micro_version();
 
 /**
  * gtk_pip_is_supported:
@@ -74,7 +74,7 @@ guint gtk_pip_get_micro_version ();
  *
  * Since: 0.5
  */
-gboolean gtk_pip_is_supported ();
+gboolean gtk_pip_is_supported();
 
 /**
  * gtk_pip_get_protocol_version:
@@ -86,7 +86,7 @@ gboolean gtk_pip_is_supported ();
  *
  * Since: 0.6
  */
-guint gtk_pip_get_protocol_version ();
+guint gtk_pip_get_protocol_version();
 
 /**
  * gtk_pip_init_for_window:
@@ -95,7 +95,7 @@ guint gtk_pip_get_protocol_version ();
  * Set the @window up to be a pip surface once it is mapped. this must be called before
  * the @window is realized.
  */
-void gtk_pip_init_for_window (GtkWindow *window);
+void gtk_pip_init_for_window(GtkWindow *window);
 
 /**
  * gtk_pip_is_pip_window:
@@ -105,7 +105,7 @@ void gtk_pip_init_for_window (GtkWindow *window);
  *
  * Since: 0.5
  */
-gboolean gtk_pip_is_pip_window (GtkWindow *window);
+gboolean gtk_pip_is_pip_window(GtkWindow *window);
 
 /**
  * gtk_pip_get_zwlr_pip_surface_v1:
@@ -114,7 +114,7 @@ gboolean gtk_pip_is_pip_window (GtkWindow *window);
  * Returns: The underlying pip surface Wayland object
  *
  */
-struct xdg_pip_v1 *gtk_pip_get_zwlr_pip_surface_v1 (GtkWindow *window);
+struct xdg_pip_v1 *gtk_pip_get_zwlr_pip_surface_v1(GtkWindow *window);
 
 /**
  * gtk_pip_set_app_id:
@@ -130,7 +130,7 @@ struct xdg_pip_v1 *gtk_pip_get_zwlr_pip_surface_v1 (GtkWindow *window);
  *
  * Default is "gtk-pip-shell" (which will be used if set to %NULL)
  */
-void gtk_pip_set_app_id (GtkWindow *window, char const* name_space);
+void gtk_pip_set_app_id(GtkWindow *window, char const *name_space);
 
 /**
  * gtk_pip_get_app_id:
@@ -143,11 +143,11 @@ void gtk_pip_set_app_id (GtkWindow *window, char const* name_space);
  * default namespace ("gtk-pip-shell"). Never returns %NULL.
  *
  */
-const char *gtk_pip_get_app_id (GtkWindow *window);
+const char *gtk_pip_get_app_id(GtkWindow *window);
 
 void gtk_pip_move(GtkWindow *window);
 
-// void gtk_pip_resize(GtkWindow *window, GdkWindowEdge edge);
+void gtk_pip_resize(GtkWindow *window, GdkWindowEdge edge);
 
 G_END_DECLS
 

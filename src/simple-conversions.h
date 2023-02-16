@@ -17,6 +17,7 @@
 #include "gtk-pip-shell.h"
 #include <gdk/gdk.h>
 
+enum xdg_pip_v1_resize_edge gdk_get_resize_edge(GdkWindowEdge edge);
 enum xdg_positioner_gravity gdk_gravity_get_xdg_positioner_gravity (GdkGravity gravity);
 enum xdg_positioner_anchor gdk_gravity_get_xdg_positioner_anchor (GdkGravity anchor);
 enum xdg_positioner_constraint_adjustment gdk_anchor_hints_get_xdg_positioner_constraint_adjustment (GdkAnchorHints hints);
