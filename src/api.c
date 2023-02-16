@@ -58,6 +58,7 @@ gtk_window_get_pip_surface(GtkWindow *window)
 {
     g_return_val_if_fail(window, NULL);
     CustomShellSurface *shell_surface = gtk_window_get_custom_shell_surface(window);
+
     if (!shell_surface)
     {
         g_critical("GtkWindow is not a pip surface. Make sure you called gtk_pip_init_for_window ()");

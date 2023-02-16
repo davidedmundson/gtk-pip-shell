@@ -21,6 +21,7 @@ void on_button_clicked(GtkButton *button, gpointer data)
         return;
 
     gtk_pip_move(window);
+    gtk_window_begin_move_drag(window, 0, 0 ,0, 0);
     return;
 }
 
@@ -36,6 +37,8 @@ activate(GtkApplication *app, void *_data)
     gtk_pip_init_for_window(gtk_window);
 
     gtk_pip_set_app_id(gtk_window, "dave");
+
+    
 
     // Set up a widget
     GtkWidget *label = gtk_label_new("");

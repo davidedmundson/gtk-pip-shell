@@ -12,6 +12,7 @@
 #include "gtk-priv-access.h"
 #include "gtk-wayland.h"
 #include "xdg-popup-surface.h"
+#include "pip-surface.h"
 
 #include "wayland-client.h"
 
@@ -175,6 +176,18 @@ gdk_window_set_priv_mapped (GdkWindow *gdk_window)
     gdk_window_impl_wayland_priv_set_mapped (window_impl, TRUE);
 }
 
+static void 
+gdk_window_begin_move_drag_override(GdkWindow *window, GdkDevice *device, gint button, gint root_x, gint root_y, guint32 timestamp)
+{
+    CustomShellSurface *shell_surface = gtk_window_get_custom_shell_surface (gtk_wayland_gdk_to_gtk_window(window));
+    g_return_if_fail(shell_surface); //TODO call real_begin_move_drag_override
+
+    PipSurface *pip_surface = custom_shell_surface_get_pip_surface (shell_surface);
+    g_return_if_fail(pip_surface);
+
+    pip_surface_move(pip_surface);
+}
+
 void
 gtk_priv_access_init (GdkWindow *gdk_window)
 {
@@ -190,4 +203,6 @@ gtk_priv_access_init (GdkWindow *gdk_window)
         gdk_window_move_to_rect_real = gdk_window_impl_class_priv_get_move_to_rect (window_class);
         gdk_window_impl_class_priv_set_move_to_rect (window_class, gdk_window_move_to_rect_impl_override);
     }
+
+    gdk_window_impl_class_priv_set_begin_move_drag(window_class, gdk_window_begin_move_drag_override);
 }
