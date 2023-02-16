@@ -18,108 +18,117 @@
 
 #include <gdk/gdkwayland.h>
 
-guint
-gtk_pip_get_major_version ()
+guint gtk_pip_get_major_version()
 {
     return GTK_LAYER_SHELL_MAJOR;
 }
 
-guint
-gtk_pip_get_minor_version ()
+guint gtk_pip_get_minor_version()
 {
     return GTK_LAYER_SHELL_MINOR;
 }
 
-guint
-gtk_pip_get_micro_version ()
+guint gtk_pip_get_micro_version()
 {
     return GTK_LAYER_SHELL_MICRO;
 }
 
 gboolean
-gtk_pip_is_supported ()
+gtk_pip_is_supported()
 {
-    if (!GDK_IS_WAYLAND_DISPLAY (gdk_display_get_default ()))
+    if (!GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default()))
         return FALSE;
-    gtk_wayland_init_if_needed ();
-    return gtk_wayland_get_pip_shell_global () != NULL;
+    gtk_wayland_init_if_needed();
+    return gtk_wayland_get_pip_shell_global() != NULL;
 }
 
-guint
-gtk_pip_get_protocol_version ()
+guint gtk_pip_get_protocol_version()
 {
-    if (!GDK_IS_WAYLAND_DISPLAY (gdk_display_get_default ()))
+    if (!GDK_IS_WAYLAND_DISPLAY(gdk_display_get_default()))
         return 0;
-    gtk_wayland_init_if_needed ();
-    struct xdg_wm_pip_v1 *pip_shell_global = gtk_wayland_get_pip_shell_global ();
+    gtk_wayland_init_if_needed();
+    struct xdg_wm_pip_v1 *pip_shell_global = gtk_wayland_get_pip_shell_global();
     if (!pip_shell_global)
         return 0;
-    return xdg_wm_pip_v1_get_version (pip_shell_global);
+    return xdg_wm_pip_v1_get_version(pip_shell_global);
 }
 
-static PipSurface*
-gtk_window_get_pip_surface (GtkWindow *window)
+static PipSurface *
+gtk_window_get_pip_surface(GtkWindow *window)
 {
-    g_return_val_if_fail (window, NULL);
-    CustomShellSurface *shell_surface = gtk_window_get_custom_shell_surface (window);
-    if (!shell_surface) {
-        g_critical ("GtkWindow is not a pip surface. Make sure you called gtk_pip_init_for_window ()");
+    g_return_val_if_fail(window, NULL);
+    CustomShellSurface *shell_surface = gtk_window_get_custom_shell_surface(window);
+    if (!shell_surface)
+    {
+        g_critical("GtkWindow is not a pip surface. Make sure you called gtk_pip_init_for_window ()");
         return NULL;
     }
-    PipSurface *pip_surface = custom_shell_surface_get_pip_surface (shell_surface);
-    if (!pip_surface) {
-        g_critical ("Custom wayland shell surface is not a pip surface, your Wayland compositor may not support Layer Shell");
+    PipSurface *pip_surface = custom_shell_surface_get_pip_surface(shell_surface);
+    if (!pip_surface)
+    {
+        g_critical("Custom wayland shell surface is not a pip surface, your Wayland compositor may not support Layer Shell");
         return NULL;
     }
     return pip_surface;
 }
 
-void
-gtk_pip_init_for_window (GtkWindow *window)
+void gtk_pip_init_for_window(GtkWindow *window)
 {
-    gtk_wayland_init_if_needed ();
-    PipSurface* pip_surface = pip_surface_new (window);
-    if (!pip_surface) {
-        g_warning ("Falling back to XDG shell instead of Layer Shell (surface should appear but pip features will not work)");
-        XdgToplevelSurface* toplevel_surface = xdg_toplevel_surface_new (window);
+    gtk_wayland_init_if_needed();
+    PipSurface *pip_surface = pip_surface_new(window);
+    if (!pip_surface)
+    {
+        g_warning("Falling back to XDG shell instead of Layer Shell (surface should appear but pip features will not work)");
+        XdgToplevelSurface *toplevel_surface = xdg_toplevel_surface_new(window);
         if (!toplevel_surface)
         {
-            g_warning ("Shell does not support XDG shell stable. Falling back to default GTK behavior");
+            g_warning("Shell does not support XDG shell stable. Falling back to default GTK behavior");
         }
     }
 }
 
 gboolean
-gtk_pip_is_pip_window (GtkWindow *window)
+gtk_pip_is_pip_window(GtkWindow *window)
 {
-    g_return_val_if_fail (window, FALSE);
-    CustomShellSurface *shell_surface = gtk_window_get_custom_shell_surface (window);
+    g_return_val_if_fail(window, FALSE);
+    CustomShellSurface *shell_surface = gtk_window_get_custom_shell_surface(window);
     if (!shell_surface)
         return FALSE;
-    PipSurface *pip_surface = custom_shell_surface_get_pip_surface (shell_surface);
+    PipSurface *pip_surface = custom_shell_surface_get_pip_surface(shell_surface);
     return pip_surface != NULL;
 }
 
 struct xdg_pip_v1 *
-gtk_pip_get_zwlr_pip_surface_v1 (GtkWindow *window)
+gtk_pip_get_zwlr_pip_surface_v1(GtkWindow *window)
 {
-    PipSurface *pip_surface = gtk_window_get_pip_surface (window);
-    if (!pip_surface) return NULL; // Error message already shown in gtk_window_get_pip_surface
+    PipSurface *pip_surface = gtk_window_get_pip_surface(window);
+    if (!pip_surface)
+        return NULL; // Error message already shown in gtk_window_get_pip_surface
     return pip_surface->pip_surface;
 }
 
-void
-gtk_pip_set_app_id (GtkWindow *window, char const* app_id)
+void gtk_pip_set_app_id(GtkWindow *window, char const *app_id)
 {
-    PipSurface *pip_surface = gtk_window_get_pip_surface (window);
-    if (!pip_surface) return; // Error message already shown in gtk_window_get_pip_surface
-    pip_surface_set_app_id (pip_surface, app_id);
+    PipSurface *pip_surface = gtk_window_get_pip_surface(window);
+    if (!pip_surface)
+        return; // Error message already shown in gtk_window_get_pip_surface
+    pip_surface_set_app_id(pip_surface, app_id);
 }
 
 const char *
-gtk_pip_get_app_id (GtkWindow *window)
+gtk_pip_get_app_id(GtkWindow *window)
 {
-    PipSurface *pip_surface = gtk_window_get_pip_surface (window);
-    // If pip_surface is NULL, error message already shown in gtk_window_get_pip_surface
-    return pip_surface_get_app_id (pip_surface); // NULL-safe
+    PipSurface *pip_surface = gtk_window_get_pip_surface(window);
+    return pip_surface_get_app_id(pip_surface); // NULL-safe
+}
+
+void gtk_pip_move(GtkWindow *window)
+{
+    GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
+    PipSurface *pip_surface = gtk_window_get_pip_surface(window);
+    if (!pip_surface)
+        return; // Error message already shown in gtk_window_get_pip_surface
+    if (!gdk_window)
+        return;
+    return pip_surface_move(pip_surface, gdk_window);
 }

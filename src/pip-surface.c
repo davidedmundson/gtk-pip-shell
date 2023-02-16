@@ -82,8 +82,7 @@ pip_surface_handle_configure_bounds(void *data,
                                     int32_t w,
                                     int32_t h)
 {
-        PipSurface *self = data;
-
+    PipSurface *self = data;
 }
 
 static void
@@ -241,6 +240,29 @@ pip_surface_get_app_id(PipSurface *self)
         return self->app_id;
     else
         return "gtk-pip-shell";
+}
+
+void pip_surface_move(PipSurface *self, GdkWindow *gdk_window)
+{
+    if (!self->pip_surface)
+    {
+        return;
+    }
+    GdkSeat *grab_gdk_seat = gdk_window_get_priv_grab_seat(gdk_window);
+    if (!grab_gdk_seat)
+    {
+        // If we really wanted a seat we could get the default one
+        // but grab_gdk_seat being null is an indication we should not grab
+        return;
+    }
+
+    struct wl_seat *grab_wl_seat = gdk_wayland_seat_get_wl_seat(grab_gdk_seat);
+    if (!grab_wl_seat)
+        return; // unlikely
+
+    uint32_t serial = gdk_window_get_priv_latest_serial(grab_gdk_seat);
+
+    xdg_pip_v1_move(self->pip_surface, grab_wl_seat, serial);
 }
 
 PipSurface *

@@ -48,4 +48,6 @@ void pip_surface_set_app_id (PipSurface *self, char const* name_space); // Makes
 // Returns the effective namespace (default if unset). Does not return ownership. Never returns NULL. Handles null self.
 const char* pip_surface_get_app_id (PipSurface *self);
 
+void pip_surface_move(PipSurface *self, GdkWindow *gdk_window);
+
 #endif // LAYER_SHELL_SURFACE_H

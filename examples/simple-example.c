@@ -29,7 +29,7 @@ activate (GtkApplication* app, void *_data)
     GtkWidget *label = gtk_label_new ("");
     gtk_label_set_markup (GTK_LABEL (label),
                           "<span font_desc=\"20.0\">"
-                              "GTK Layer Shell example!"
+                              "GTK PIP Shell example!"
                           "</span>");
     gtk_container_add (GTK_CONTAINER (gtk_window), label);
     gtk_container_set_border_width (GTK_CONTAINER (gtk_window), 12);

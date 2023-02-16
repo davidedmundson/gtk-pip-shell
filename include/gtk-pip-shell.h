@@ -114,7 +114,6 @@ gboolean gtk_pip_is_pip_window (GtkWindow *window);
  * Returns: The underlying pip surface Wayland object
  *
  */
-// DAVE RENAME THIS
 struct xdg_pip_v1 *gtk_pip_get_zwlr_pip_surface_v1 (GtkWindow *window);
 
 /**
@@ -143,9 +142,12 @@ void gtk_pip_set_app_id (GtkWindow *window, char const* name_space);
  * Returns: a reference to the namespace property. If namespace is unset, returns the
  * default namespace ("gtk-pip-shell"). Never returns %NULL.
  *
- * Since: 0.5
  */
 const char *gtk_pip_get_app_id (GtkWindow *window);
+
+void gtk_pip_move(GtkWindow *window);
+
+// void gtk_pip_resize(GtkWindow *window, Edge);
 
 G_END_DECLS
 
