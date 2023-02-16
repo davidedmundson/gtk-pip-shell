@@ -27,7 +27,7 @@ uint32_t gdk_window_get_priv_latest_serial (GdkSeat *seat);
 GdkSeat *gdk_window_get_priv_grab_seat (GdkWindow *gdk_window);
 
 // Sets the window as mapped (mapped is set to false automatically in gdk_wayland_window_hide_surface ())
-// If window is not set to mapped, some subsurfaces fail (see https://github.com/wmww/gtk-layer-shell/issues/38)
+// If window is not set to mapped, some subsurfaces fail (see https://github.com/wmww/gtk-pip-shell/issues/38)
 void gdk_window_set_priv_mapped (GdkWindow *gdk_window);
 
 #endif // GDK_WINDOW_HACK_H

@@ -128,7 +128,7 @@ custom_shell_surface_needs_commit (CustomShellSurface *self)
 
     // Hopefully this will trigger a commit
     // Don't commit directly, as that screws up GTK's internal state
-    // (see https://github.com/wmww/gtk-layer-shell/issues/51)
+    // (see https://github.com/wmww/gtk-pip-shell/issues/51)
     gdk_window_invalidate_rect (gdk_window, NULL, FALSE);
 }
 

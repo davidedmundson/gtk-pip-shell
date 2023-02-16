@@ -16,7 +16,7 @@
 #include "gtk-priv-access.h"
 
 #include "xdg-shell-client.h"
-#include "wlr-layer-shell-unstable-v1-client.h"
+#include "xdg-pip-v1-client.h"
 
 #include <gtk/gtk.h>
 #include <gdk/gdk.h>
@@ -27,7 +27,7 @@ static const char *popup_position_key = "custom-popup-position";
 
 static struct wl_registry *wl_registry_global = NULL;
 static struct xdg_wm_base *xdg_wm_base_global = NULL;
-static struct zwlr_layer_shell_v1 *layer_shell_global = NULL;
+static struct zwlr_pip_shell_v1 *pip_shell_global = NULL;
 
 static gboolean has_initialized = FALSE;
 
@@ -37,10 +37,10 @@ gtk_wayland_get_has_initialized (void)
     return has_initialized;
 }
 
-struct zwlr_layer_shell_v1 *
-gtk_wayland_get_layer_shell_global ()
+struct zwlr_pip_shell_v1 *
+gtk_wayland_get_pip_shell_global ()
 {
-    return layer_shell_global;
+    return pip_shell_global;
 }
 
 struct xdg_wm_base *
@@ -59,12 +59,12 @@ wl_registry_handle_global (void *_data,
     (void)_data;
 
     // pull out needed globals
-    if (strcmp (interface, zwlr_layer_shell_v1_interface.name) == 0) {
-        g_warn_if_fail (zwlr_layer_shell_v1_interface.version >= 3);
-        layer_shell_global = wl_registry_bind (registry,
+    if (strcmp (interface, zwlr_pip_shell_v1_interface.name) == 0) {
+        g_warn_if_fail (zwlr_pip_shell_v1_interface.version >= 3);
+        pip_shell_global = wl_registry_bind (registry,
                                                id,
-                                               &zwlr_layer_shell_v1_interface,
-                                               MIN((uint32_t)zwlr_layer_shell_v1_interface.version, version));
+                                               &zwlr_pip_shell_v1_interface,
+                                               MIN((uint32_t)zwlr_pip_shell_v1_interface.version, version));
     } else if (strcmp (interface, xdg_wm_base_interface.name) == 0) {
         g_warn_if_fail (xdg_wm_base_interface.version >= 2);
         xdg_wm_base_global = wl_registry_bind (registry,
@@ -163,7 +163,7 @@ gtk_wayland_init_if_needed ()
     wl_registry_add_listener (wl_registry_global, &wl_registry_listener, NULL);
     wl_display_roundtrip (wl_display);
 
-    if (!layer_shell_global)
+    if (!pip_shell_global)
         g_warning ("It appears your Wayland compositor does not support the Layer Shell protocol");
 
     if (!xdg_wm_base_global)

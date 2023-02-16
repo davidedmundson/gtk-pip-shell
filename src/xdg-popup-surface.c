@@ -95,7 +95,7 @@ static void
 xdg_popup_surface_get_anchor_rect (XdgPopupSurface *self, GdkRectangle *rect)
 {
     // The anchor rect is given relative to the actual top-left of the parent GDK window surface
-    // We need it realative to the logical geometry of the transient-for window, which may be sevel layers up
+    // We need it realative to the logical geometry of the transient-for window, which may be sevel pips up
     *rect = self->position.rect;
     // It is a protocol error for size to be <= 0
     rect->width = MAX (rect->width, 1);

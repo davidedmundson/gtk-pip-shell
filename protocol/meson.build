@@ -5,7 +5,7 @@ else
 endif
 
 protocols = [
-    'wlr-layer-shell-unstable-v1.xml'
+    'xdg-pip-v1.xml'
 ]
 
 if wayland_protocols.found()

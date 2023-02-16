@@ -1,4 +1,4 @@
-project('gtk-layer-shell',
+project('gtk-pip-shell',
     ['c'],
     version: '0.8.0',
     license: 'LGPLv3',
@@ -31,11 +31,11 @@ subdir('protocol')
 subdir('gtk-priv')
 subdir('src')
 
-gtk_layer_shell = declare_dependency(
-    link_with: gtk_layer_shell_lib,
-    include_directories: gtk_layer_shell_inc)
+gtk_pip_shell = declare_dependency(
+    link_with: gtk_pip_shell_lib,
+    include_directories: gtk_pip_shell_inc)
 
-subdir('examples')
+# subdir('examples')
 
 if get_option('docs')
     subdir('doc')

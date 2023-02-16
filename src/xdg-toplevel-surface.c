@@ -102,7 +102,7 @@ xdg_toplevel_surface_map (CustomShellSurface *super, struct wl_surface *wl_surfa
     // name is either static or managed by the window widget
     const char *name = gtk_window_get_title (custom_shell_surface_get_gtk_window (super));
     if (name == NULL)
-        name = "gtk-layer-shell";
+        name = "gtk-pip-shell";
     xdg_toplevel_set_title (self->xdg_toplevel, name);
 
     GtkWindow *gtk_window = custom_shell_surface_get_gtk_window (super);
