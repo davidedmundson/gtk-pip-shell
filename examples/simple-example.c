@@ -20,7 +20,6 @@ void on_button_clicked(GtkButton *button, gpointer data)
     if (window == NULL)
         return;
 
-    gtk_pip_move(window);
     gtk_window_begin_move_drag(window, 0, 0 ,0, 0);
     return;
 }
