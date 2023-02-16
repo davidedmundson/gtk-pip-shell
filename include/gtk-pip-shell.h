@@ -9,15 +9,15 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-#ifndef GTK_LAYER_SHELL_H
-#define GTK_LAYER_SHELL_H
+#ifndef GTK_PIP_SHELL_H
+#define GTK_PIP_SHELL_H
 
 #include <gtk/gtk.h>
 
 /**
  * SECTION:gtk-pip-shell
- * @title: Gtk Layer Shell
- * @short_description: A library to write GTK Applications using Layer Shell
+ * @title: Gtk PIP Shell
+ * @short_description: A library to write GTK Applications using Picture-in-Picture Shell
  *
  * insert more general verbiage here
  *
@@ -50,8 +50,6 @@ guint gtk_pip_get_major_version();
  * gtk_pip_get_minor_version:
  *
  * Returns: the minor version number of the GTK Layer Shell library
- *
- * Since: 0.4
  */
 guint gtk_pip_get_minor_version();
 
@@ -59,8 +57,6 @@ guint gtk_pip_get_minor_version();
  * gtk_pip_get_micro_version:
  *
  * Returns: the micro/patch version number of the GTK Layer Shell library
- *
- * Since: 0.4
  */
 guint gtk_pip_get_micro_version();
 
@@ -72,7 +68,6 @@ guint gtk_pip_get_micro_version();
  * Returns: %TRUE if the platform is Wayland and Wayland compositor supports the
  * zwlr_pip_shell_v1 protocol.
  *
- * Since: 0.5
  */
 gboolean gtk_pip_is_supported();
 
@@ -84,7 +79,6 @@ gboolean gtk_pip_is_supported();
  * Returns: version of the zwlr_pip_shell_v1 protocol supported by the
  * compositor or 0 if the protocol is not supported.
  *
- * Since: 0.6
  */
 guint gtk_pip_get_protocol_version();
 
@@ -108,29 +102,24 @@ void gtk_pip_init_for_window(GtkWindow *window);
 gboolean gtk_pip_is_pip_window(GtkWindow *window);
 
 /**
- * gtk_pip_get_zwlr_pip_surface_v1:
+ * gtk_pip_get_xdg_pip_v1:
  * @window: A pip surface.
  *
  * Returns: The underlying pip surface Wayland object
  *
  */
-struct xdg_pip_v1 *gtk_pip_get_zwlr_pip_surface_v1(GtkWindow *window);
+struct xdg_pip_v1 *gtk_pip_get_xdg_pip_v1(GtkWindow *window);
 
 /**
  * gtk_pip_set_app_id:
  * @window: A pip surface.
- * @name_space: The namespace of this pip surface.
+ * @app_id: The app ID of this pip surface.
  *
- * Set the "namespace" of the surface.
+ * Set the "app ID" of the surface. This should correspond to a desktop file
+ * in the XDG applications directory
  *
- * No one is quite sure what this is for, but it probably should be something generic
- * ("panel", "osk", etc). The @name_space string is copied, and caller maintains
- * ownership of original. If the window is currently mapped, it will get remapped so
- * the change can take effect.
- *
- * Default is "gtk-pip-shell" (which will be used if set to %NULL)
  */
-void gtk_pip_set_app_id(GtkWindow *window, char const *name_space);
+void gtk_pip_set_app_id(GtkWindow *window, char const *app_id);
 
 /**
  * gtk_pip_get_app_id:
@@ -139,14 +128,26 @@ void gtk_pip_set_app_id(GtkWindow *window, char const *name_space);
  * NOTE: this function does not return ownership of the string. Do not free the returned string.
  * Future calls into the library may invalidate the returned string.
  *
- * Returns: a reference to the namespace property. If namespace is unset, returns the
+ * Returns: a reference to the app_id property. If namespace is unset, returns the
  * default namespace ("gtk-pip-shell"). Never returns %NULL.
  *
  */
 const char *gtk_pip_get_app_id(GtkWindow *window);
 
+/**
+ * gtk_pip_move
+ * @window: A pip surface.
+ * 
+ * Starts a system move
+ */
 void gtk_pip_move(GtkWindow *window);
 
+/**
+ * gtk_pip_resize
+ *  @window: A pip surface.
+ * 
+ * Starts a system resize from the given edges
+ */
 void gtk_pip_resize(GtkWindow *window, GdkWindowEdge edge);
 
 G_END_DECLS
