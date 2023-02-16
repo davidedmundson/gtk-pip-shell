@@ -82,6 +82,8 @@ pip_surface_handle_configure_bounds(void *data,
                                     int32_t w,
                                     int32_t h)
 {
+        PipSurface *self = data;
+
 }
 
 static void
