@@ -35,7 +35,7 @@ gtk_pip_shell = declare_dependency(
     link_with: gtk_pip_shell_lib,
     include_directories: gtk_pip_shell_inc)
 
-# subdir('examples')
+subdir('examples')
 
 if get_option('docs')
     subdir('doc')
