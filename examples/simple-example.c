@@ -23,6 +23,8 @@ activate (GtkApplication* app, void *_data)
     // Before the window is first realized, set it up to be a pip surface
     gtk_pip_init_for_window (gtk_window);
 
+    gtk_pip_set_app_id(gtk_window, "dave");
+
     // Set up a widget
     GtkWidget *label = gtk_label_new ("");
     gtk_label_set_markup (GTK_LABEL (label),

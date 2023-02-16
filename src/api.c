@@ -109,11 +109,11 @@ gtk_pip_get_zwlr_pip_surface_v1 (GtkWindow *window)
 }
 
 void
-gtk_pip_set_app_id (GtkWindow *window, char const* name_space)
+gtk_pip_set_app_id (GtkWindow *window, char const* app_id)
 {
     PipSurface *pip_surface = gtk_window_get_pip_surface (window);
     if (!pip_surface) return; // Error message already shown in gtk_window_get_pip_surface
-    pip_surface_set_app_id (pip_surface, name_space);
+    pip_surface_set_app_id (pip_surface, app_id);
 }
 
 const char *
