@@ -147,7 +147,7 @@ const char *gtk_pip_get_app_id (GtkWindow *window);
 
 void gtk_pip_move(GtkWindow *window);
 
-// void gtk_pip_resize(GtkWindow *window, Edge);
+// void gtk_pip_resize(GtkWindow *window, GdkWindowEdge edge);
 
 G_END_DECLS
 

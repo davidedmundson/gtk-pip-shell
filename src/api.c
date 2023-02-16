@@ -124,11 +124,8 @@ gtk_pip_get_app_id(GtkWindow *window)
 
 void gtk_pip_move(GtkWindow *window)
 {
-    GdkWindow *gdk_window = gtk_widget_get_window(GTK_WIDGET(window));
     PipSurface *pip_surface = gtk_window_get_pip_surface(window);
     if (!pip_surface)
         return; // Error message already shown in gtk_window_get_pip_surface
-    if (!gdk_window)
-        return;
-    return pip_surface_move(pip_surface, gdk_window);
+    return pip_surface_move(pip_surface);
 }

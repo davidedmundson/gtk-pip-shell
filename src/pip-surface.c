@@ -247,27 +247,21 @@ pip_surface_get_app_id(PipSurface *self)
         return "gtk-pip-shell";
 }
 
-void pip_surface_move(PipSurface *self, GdkWindow *gdk_window)
+void pip_surface_move(PipSurface *self)
 {
     if (!self->pip_surface)
     {
         return;
     }
-    GdkSeat *grab_gdk_seat = gdk_window_get_priv_grab_seat(gdk_window);
-    if (!grab_gdk_seat)
-    {
-        // If we really wanted a seat we could get the default one
-        // but grab_gdk_seat being null is an indication we should not grab
+    GdkSeat *gdk_seat = gdk_display_get_default_seat(gdk_display_get_default());
+    if (!gdk_seat) {
         return;
     }
+    uint32_t serial = gdk_window_get_priv_latest_serial(gdk_seat);
 
-    struct wl_seat *grab_wl_seat = gdk_wayland_seat_get_wl_seat(grab_gdk_seat);
-    if (!grab_wl_seat)
-        return; // unlikely
+    struct wl_seat *wl_seat = gdk_wayland_seat_get_wl_seat(gdk_seat);
 
-    uint32_t serial = gdk_window_get_priv_latest_serial(grab_gdk_seat);
-
-    xdg_pip_v1_move(self->pip_surface, grab_wl_seat, serial);
+    xdg_pip_v1_move(self->pip_surface, wl_seat, serial);
 }
 
 PipSurface *
