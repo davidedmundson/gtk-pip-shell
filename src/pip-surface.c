@@ -106,7 +106,7 @@ xdg_surface_handle_configure(void *data,
                              struct xdg_surface *_xdg_surface,
                              uint32_t serial)
 {
-    XdgPopupSurface *self = data;
+    PipSurface *self = data;
     (void)_xdg_surface;
 
     xdg_surface_ack_configure(self->xdg_surface, serial);
