@@ -49,7 +49,7 @@ activate(GtkApplication *app, void *_data)
 
     GtkWidget *button = gtk_button_new_with_label("Move");
     g_signal_connect(G_OBJECT(button),
-                     "clicked", G_CALLBACK(on_button_clicked), gtk_window);
+                     "pressed", G_CALLBACK(on_button_clicked), gtk_window);
     gtk_container_add(GTK_CONTAINER(gtk_window), button);
 
     gtk_container_set_border_width(GTK_CONTAINER(gtk_window), 12);
