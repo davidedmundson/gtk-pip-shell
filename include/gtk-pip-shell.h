@@ -148,7 +148,7 @@ void gtk_pip_move(GtkWindow *window);
  * 
  * Starts a system resize from the given edges
  */
-void gtk_pip_resize(GtkWindow *window, GdkWindowEdge edge);
+// void gtk_pip_resize(GtkWindow *window, GdkWindowEdge edge);
 
 G_END_DECLS
 
