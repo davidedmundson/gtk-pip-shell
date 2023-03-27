@@ -107,6 +107,10 @@
       Attaching a null buffer to a picture-in-picture unmaps the surface.
     </description>
 
+    <enum name="error">
+      <entry name="invalid_size" value="0" summary="invalid surface size provided"/>
+    </enum>
+
     <request name="destroy" type="destructor">
       <description summary="destroy the xdg_pip_v1">
         This request destroys the role surface and unmaps the surface.
@@ -140,27 +144,6 @@
         [0] http://standards.freedesktop.org/desktop-entry-spec/
       </description>
       <arg name="app_id" type="string"/>
-    </request>
-
-    <request name="show_window_menu">
-      <description summary="show the window menu">
-        Clients implementing client-side decorations might want to show
-        a context menu when right-clicking the pip window, giving the
-        user access to a menu with compositor-defined actions that can be
-        applied to the window, e.g. close, etc.
-
-        This request asks the compositor to pop up such a window menu at
-        the given position, relative to the local surface coordinates of
-        the parent surface. There are no guarantees as to what menu items
-        the window menu contains.
-
-        This request must be used in response to some sort of user action
-        like a button press, key press, or touch down event.
-      </description>
-      <arg name="seat" type="object" interface="wl_seat" summary="the wl_seat of the user event"/>
-      <arg name="serial" type="uint" summary="the serial of the user event"/>
-      <arg name="x" type="int" summary="the x position to pop up the window menu at"/>
-      <arg name="y" type="int" summary="the y position to pop up the window menu at"/>
     </request>
 
     <request name="move">
@@ -213,13 +196,6 @@
         The server may ignore resize requests depending on the state of
         the surface, or if the passed serial is no longer valid.
 
-        If triggered, the client will receive configure events with the
-        "resize" state enum value and the expected sizes. See the "resize"
-        enum value for more details about what is required. The client
-        must also acknowledge configure events using "ack_configure". After
-        the resize is completed, the client will receive another "configure"
-        event without the resize state.
-
         If triggered, the surface also will lose the focus of the device
         (wl_pointer, wl_touch, etc) used for the resize. It is up to the
         compositor to visually indicate that the resize is taking place,
@@ -239,39 +215,20 @@
       <arg name="edges" type="uint" enum="resize_edge" summary="which edge or corner is being dragged"/>
     </request>
 
-    <enum name="state">
-      <description summary="types of state on the surface">
-        The different state values used on the surface. It is paired with the
-        configure event to ensure that both the client and the compositor
-        setting the state can be synchronized.
-
-        States set in this way are double-buffered. They will get applied on
-        the next commit.
-      </description>
-      <entry name="resizing" value="1" summary="the surface is being resized">
-      <description summary="the surface is being resized">
-        The surface is being resized. The window geometry specified in the
-        configure event is a maximum; the client cannot resize beyond it.
-        Clients that have aspect ratio or cell sizing configuration can use
-        a smaller size, however.
-      </description>
-      </entry>
-    </enum>
-
     <event name="configure_bounds">
-      <description summary="recommended surface bounds">
-        The configure_bounds event may be sent prior to a xdg_pip.configure
-        event to communicate the bounds a surface size is recommended to
-        be constrained to.
+      <description summary="surface bounds">
+        The configure_bounds event may be sent prior to a xdg_pip_v1.configure
+        event to communicate the bounds a surface size must be constrained to.
 
         The passed width and height are in surface coordinate space.
 
-        The bounds can for example correspond to the size of a monitor excluding
-        any panels or other shell components, so that a surface isn't created in
-        a way that it cannot fit.
+        If the surface width or the surface height is greater than the specified
+        surface size bounds, an invalid_size protocol error will be posted.
+
+        The surface bounds subject to compositor policies.
 
         The bounds may change at any point, and in such a case, a new
-        xdg_pip.configure_bounds will be sent, followed by xdg_pip.configure and
+        xdg_pip_v1.configure_bounds will be sent, followed by xdg_pip_v1.configure and
         xdg_surface.configure.
       </description>
       <arg name="width" type="int"/>
@@ -280,29 +237,22 @@
 
     <event name="configure">
       <description summary="suggest a surface change">
-        This configure event asks the client to resize its pip surface or
-        to change its state. The configured state should not be applied
-        immediately. See xdg_surface.configure for details.
+        This configure event asks the client to resize its pip surface.
+        The configured state should not be applied immediately. See
+        xdg_surface.configure for details.
 
         The width and height arguments specify a hint to the window
         about how its surface should be resized in window geometry
         coordinates. See set_window_geometry.
 
         If the width or height arguments are zero, it means the client
-        should decide its own window dimension. This may happen when the
-        compositor needs to configure the state of the surface but doesn't
-        have any information about any previous or expected dimension.
-
-        The states listed in the event specify how the width/height
-        arguments should be interpreted, and possibly how it should be
-        drawn.
+        should decide its own window dimension.
 
         Clients must send an ack_configure in response to this event. See
         xdg_surface.configure and xdg_surface.ack_configure for details.
       </description>
       <arg name="width" type="int"/>
       <arg name="height" type="int"/>
-      <arg name="states" type="array"/>
     </event>
 
     <event name="dismissed">
